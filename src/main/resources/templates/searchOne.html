@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>1件表示</title>
+</head>
+<body>
+	<button onclick="location.href='/'">商品登録</button>
+	 <form th:object="${bean}" method="post">
+		<p>商品コード：<input type="text" th:field="*{code}"  readonly></p>
+		<p>商品名：<input type="text" th:field="*{name}" ></p>
+		<p>金額：<input type="text" th:field="*{unitPrice}" ></p>
+		<p>数量：<input type="text" th:field="*{count}" ></p>
+		<p>おすすめフラグ：<input type="text" th:field="*{isPr}" ></p>
+		<p>登録時間：<input type="text" th:field="*{recordDate}"  readonly></p>
+		
+		<!-- そもそもBeanに recordDate の値あったら無理か
+		　　　view controller 間 の bean　と　controller dao 間の dto　的なので分ければ良いのか -->
+		<button type="submit" formaction="/update" name="update">更新</button> 
+		<button type="submit"  formaction="/delete" name="delete">削除</button>
+		
+	</form>
+
+</body>
+</html>
