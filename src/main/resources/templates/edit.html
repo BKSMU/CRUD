@@ -6,7 +6,7 @@
 </head>
 <body>
     商品編集<br>
-    <form method="post" th:action="@{/edit}" th:object="${drinkMachineForm}">
+    <form method="post" th:action="@{/edit}" th:object="${CRUDForm}">
         <input type="hidden" th:field="*{code}" th:value="*{code}">
         <label for="name">名前:</label>
         <input type="text" th:field="*{name}" th:value="*{name}">

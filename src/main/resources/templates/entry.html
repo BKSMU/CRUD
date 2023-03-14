@@ -6,7 +6,7 @@
 </head>
 <body>
     商品登録<br>
-    <form method="post" th:action="@{/insert}" th:object="${drinkMachineForm}">
+    <form method="post" th:action="@{/insert}" th:object="${CRUDForm}">
         <label for="name">名前:</label>
         <input type="text" name="name" id="name">
         <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div><br>

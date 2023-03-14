@@ -7,7 +7,6 @@ public class CRUDForm {
 	private int code;
 
 	// 商品名
-	@NotEmpty
 	private String name;
 	
 	// 金額
