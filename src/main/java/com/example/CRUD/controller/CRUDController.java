@@ -73,7 +73,7 @@ public class CRUDController {
 
 	// 編集画面
 	@RequestMapping(value="/edit/{code}")
-	public String edit(@PathVariable long code, Model model){
+	public String edit(@PathVariable int code, Model model){
 		// 指定のデータを取得
 		ItemDto itemDto = itemDao.selectOne(code);
 		
@@ -88,7 +88,7 @@ public class CRUDController {
 
 	// 更新処理
 	@RequestMapping("/update")
-	public String upadate(@RequestParam long code,
+	public String upadate(@RequestParam int code,
 			String name,
 			int unitPrice,
 			int count,
@@ -111,7 +111,7 @@ public class CRUDController {
 
 	// 削除
 	@RequestMapping(value="/delete/{code}")
-	public String delete(@PathVariable long code){
+	public String delete(@PathVariable int code){
 
 		itemDao.deleteOne(code);
 

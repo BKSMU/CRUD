@@ -14,7 +14,7 @@ import java.util.Date;
 public class ItemDto {
 	
 	// コード
-	long code;
+	int code;
 	
 	//商品名
 	String name;
@@ -31,11 +31,11 @@ public class ItemDto {
 	//登録日時
 	Date RecordDate;
 
-	public long getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(long code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 

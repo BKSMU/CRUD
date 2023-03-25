@@ -25,10 +25,10 @@ public class ItemDao {
 
 		//１件登録。登録、更新、削除はupdateを使う。第一引数はSQL、第二はPreparedStatement。
 		int rowNumber = jdbc.update("INSERT INTO ITEM(name,"
-				+ " unit_Price,"
+				+ " unitPrice,"
 				+ " count,"
-				+ " Is_Pr,"
-				+ " Record_Date)"
+				+ " IsPr,"
+				+ " RecordDate)"
 				+ " VALUES(?, ?, ?, ?, ?)",
 				itemDto.getName(),
 				itemDto.getUnitPrice(),
@@ -59,12 +59,12 @@ public class ItemDao {
 			ItemDto itemDto = new ItemDto();
 
 			// Itemインスタンスに取得したデータをセットする
-			itemDto.setCode((long) map.get("code")); //コード
+			itemDto.setCode((int) map.get("code")); //コード
 			itemDto.setName((String) map.get("name")); //名称
-			itemDto.setUnitPrice((int) map.get("unit_Price")); //価格
+			itemDto.setUnitPrice((int) map.get("unitPrice")); //価格
 			itemDto.setCount((int) map.get("count")); //値段
-			itemDto.setIsPr((int) map.get("Is_Pr")); //おススメフラグ
-			itemDto.setRecordDate((Date) map.get("Record_Date")); //登録日
+			itemDto.setIsPr((int) map.get("IsPr")); //おススメフラグ
+			itemDto.setRecordDate((Date) map.get("RecordDate")); //登録日
 
 			//結果返却用のListに追加
 			itemList.add(itemDto);
@@ -74,7 +74,7 @@ public class ItemDao {
 	}
 
 	//一件取得
-	public ItemDto selectOne(long code) throws DataAccessException {
+	public ItemDto selectOne(int code) throws DataAccessException {
 
 
 		// SQL文を作成
@@ -100,10 +100,10 @@ public class ItemDao {
 	public int upadate(ItemDto itemDto) throws DataAccessException {
 		int rowNumber = jdbc.update("UPDATE ITEM SET"
 				+ " name = ?,"
-				+ " unit_Price = ?,"
+				+ " unitPrice = ?,"
 				+ " count = ?,"
-				+ " Is_Pr = ?,"
-				+ " Record_Date = ?"
+				+ " IsPr = ?,"
+				+ " RecordDate = ?"
 				+ " WHERE"
 				+ " code = ?",
 				itemDto.getName(),
@@ -118,7 +118,7 @@ public class ItemDao {
 
 
 	// 削除
-	public int deleteOne(long code) throws DataAccessException {
+	public int deleteOne(int code) throws DataAccessException {
 
 		//１件登録。登録、更新、削除はupdateを使う。第一引数はSQL、第二はPreparedStatement。
 		int rowNumber = jdbc.update("DELETE FROM ITEM WHERE code = ?",
