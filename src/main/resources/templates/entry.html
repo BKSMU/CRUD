@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>商品登録</title>
+</head>
+<body>
+    商品登録<br>
+    <form method="post" th:action="@{/insert}" th:object="${CRUDForm}">
+        <label for="name">名前:</label>
+        <input type="text" name="name" id="name">
+        <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div><br>
+        <label for="unitPrice">金額:</label>
+        <input type="text" name="unitPrice" id="unitPrice">
+        <div th:if="${#fields.hasErrors('unitPrice')}" th:errors="*{unitPrice}"></div><br>
+        <label for="count">数量:</label>
+        <input type="text" name="count" id="count">
+        <div th:if="${#fields.hasErrors('count')}" th:errors="*{count}"></div><br>
+        <label for="IsPr">おすすめ商品フラグ:</label>
+        <input type="text" name="IsPr" id="IsPr">
+        <div th:if="${#fields.hasErrors('IsPr')}" th:errors="*{IsPr}"></div><br>
+	    <button>登録</button>
+    </form>
+    <form id="form2" method="get" th:action="@{/read}">
+        <button>読込・削除・更新</button>
+    </form>
+    <br/>
+</body>
+</html>
