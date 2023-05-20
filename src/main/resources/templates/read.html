@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>読み込み画面</title>
+</head>
+<body>
+
+	
+	<h2>検索一覧</h2>
+	<button onclick="location.href='/'">商品登録</button>
+	<table>
+		<tr>
+			<th>商品コード</th><th>商品名</th><th>金額</th><th>数量</th><th>おすすめ商品フラグ</th><th>更新時間</th>
+		</tr>
+	
+		
+		<tr th:each="search : ${searchAllList}">
+			<td th:text="${search.getCode}"></td>
+			<td th:text="${search.getName}"></td>
+			<td th:text="${search.getUnitPrice}"></td>
+			<td th:text="${search.getCount}"></td>
+			<td th:text="${search.getIsPr}"></td>
+			<td th:text="${search.getRecordDate}"></td>
+		
+			<td>
+				<form method="post">
+					<input type="hidden" name = "code"  th:value="${search.getCode}" />
+					<button type="submit"  formaction="/delete" name="delete">削除</button>
+				</form>
+			</td>
+			<td>
+				<form  method="post">
+					<input type="hidden" name = "code"  th:value="${search.getCode}"/>
+					<button type="submit"  formaction="/searchOne" >編集</button>
+				</form>
+			
+			</td>
+		</tr>
+	</table>
+	
+	
+</body>
+</html>
