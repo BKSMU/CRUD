@@ -3,119 +3,124 @@ package com.example.CRUD;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+/**
+ * ユーザーからのリクエストを受け付け、Model及びViewに伝達する
+ *
+ */
 @Controller
 public class CRUDController {
 	
-	private final CRUDService CRUDService;
+	@Autowired
+	private CRUDDao dao;
 	
-	public CRUDController(CRUDService CRUDService) {
-		this.CRUDService = CRUDService;
-	}
-	
-	@RequestMapping("/")
-	public String index(CRUDForm CRUDForm) {
-		return "entry";
-	}
+    /**
+     * 初期(一覧)画面の表示
+     * 
+     * listにitemListという名前をつけてModelに格納する(Modelは引数に設定するだけで使える)
+     * ModelがView にデータを渡してくれる
+     * 
+     * @param model モデル
+     * @return 初期(一覧)画面
+     */
+	@GetMapping("/")
+    public String index(Model model) {
+    	List<Item> list = dao.getAll();
+        model.addAttribute("itemList", list);
+        return "index";
+    }
 
-	@PostMapping("/insert")
-    public String insert(Model model,
-    		@Validated CRUDForm CRUDForm,
-    		BindingResult result) {
-		
-        if (result.hasErrors()) {
-			return "entry";
-		}
-		
+    /**
+     * 新規入力フォーム画面の表示
+     * 
+     * @param crudForm 入力フォーム
+     * @return 新規入力フォーム画面
+     */
+    @GetMapping("/insert")
+    public String form(CRUDForm crudForm) {
+        return "insert";
+    }
+    
+    /**
+     * 登録処理
+     * 
+     * ユーザが入力した値をItemに詰めてデータベースに登録
+     * redirectで"/"を指定しているため、自動的にリクエストURL "/"(HTTPメソッドはGET)のアクセスが実行される
+     * Controllerのindexメソッドが実行され、登録後の一覧ページが表示される
+     * 
+     * @param crudForm 入力フォーム
+     * @return 初期(一覧)画面
+     */
+    @PostMapping("/insert")
+    public String create(CRUDForm crudForm) {
 		Item item = new Item();
-		item.setName(CRUDForm.getName());
-		item.setCount(CRUDForm.getCount());
-		item.setUnitPrice(CRUDForm.getUnitPrice());
-		item.setIsPr(CRUDForm.getIsPr());
+		item.setName(crudForm.getName());
+		item.setCount(crudForm.getCount());
+		item.setUnitPrice(crudForm.getUnitPrice());
+		item.setIsPr(crudForm.getIsPr());
 		item.setRecordDate(LocalDateTime.now());
-		
-		CRUDService.insert(item);
-		
-		List<Item> list = CRUDService.getAll();
-		model.addAttribute("resultList", list);
-		
-		return "insert";
+        dao.insertItem(item);
+        return "redirect:/";
     }
-	
-	@GetMapping("/read")
-	public String read(Model model) {
-		List<Item> list = CRUDService.getAll();
 
-		model.addAttribute("resultList", list);
-
-		return "read";
-	}
-
-	/** 
-	 * name = "code"に紐づく値を引数codeに設定している
-	 */
-	@PostMapping("/delete")
-    public String delete(Model model, 
-    		             @RequestParam(name = "code") int code) {
-
-		CRUDService.delete(code);
-		
-		List<Item> list = CRUDService.getAll();
-		model.addAttribute("resultList", list);
-		
-		return "read";
+    /**
+     * 編集画面の表示
+     * 
+     * データを特定するため、リクエストURLの一部(id)を使用する
+     * ＠GetMapping("/edit/{id}") のパスの波括弧で囲んだ{id}の部分は、
+     * ＠PathVariableを使用すると変数として受け取ることができる
+     * 
+     * フォームに表示するデータを受け渡すために、ItemFormを使用する
+     * idを抽出条件に対象レコードを取得し、itemFormに値を設定してViewに渡す
+     * 
+     * @param itemForm 入力フォーム
+     * @param id 対象レコードの商品コード
+     * @return 編集画面
+     */
+    @GetMapping("/edit/{id}")
+    public String edit(@ModelAttribute CRUDForm crudForm, @PathVariable int id) {
+    	Item item = dao.selectByCode(id);
+    	crudForm.setCode(item.getCode());
+    	crudForm.setName(item.getName());
+    	crudForm.setUnitPrice(item.getUnitPrice());
+    	crudForm.setCount(item.getCount());
+    	crudForm.setIsPr(item.getIsPr());
+        return "edit";
     }
-	
-	/** 
-	 * URLマッピングで指定するURLに「{」と「}」で囲まれた部分がパラメータ名になり、
-	 * @PathVariableアノテーションのvalue属性にパラメータ名を指定することで
-	 * URLの部分文字列を取得することができる
-	 */
-	@GetMapping("/edit/{id:.+}")
-	String edit(@PathVariable("id") int code,
-			    Model model) {
-		
-        System.out.println("userId = " + code);
-		
-		Item item = CRUDService.selectByCode(code);
-		
-    	// 画面返却ようのFormに値を設定する
-    	CRUDForm CRUDForm = new CRUDForm();
-    	CRUDForm.setCode(item.getCode());
-    	CRUDForm.setName(item.getName());
-    	CRUDForm.setUnitPrice(item.getUnitPrice());
-    	CRUDForm.setCount(item.getCount());
-    	CRUDForm.setIsPr(item.getIsPr());
-    	
-		model.addAttribute("CRUDForm", CRUDForm);
-		
-		return "edit";
-	}
-	
-	@PostMapping("edit")
-	public String update(@ModelAttribute @Validated CRUDForm CRUDForm,
-			             BindingResult result,
-			             Model model) {
-		
-		// バリデーションエラーの場合
-		if (result.hasErrors()) {
-			// 編集画面に遷移
-			return "edit";
-		}
-		
-		CRUDService.update(CRUDForm);
-		
-		// 一覧画面にリダイレクト
-		return "redirect:/read";
-	}
+
+    /**
+     * 更新処理
+     * 
+     * 編集画面で入力した値で対象レコードを更新する
+     * 更新後は初期(一覧)画面にリダイレクトする
+     * 
+     * @param itemForm 入力フォーム
+     * @return 初期(一覧)画面
+     */
+    @PostMapping("/edit")
+    public String update(CRUDForm crudForm) {
+        dao.updateItem(crudForm);
+        return "redirect:/";
+    }
+
+    /**
+     * 削除処理
+     * 
+     * 対象レコードを削除し、初期(一覧)画面にリダイレクトする
+     * 
+     * @param id 対象レコードの商品コード
+     * @return 初期(一覧)画面
+     */
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable int id) {
+        dao.deleteItem(id);
+        return "redirect:/";
+    }
 }

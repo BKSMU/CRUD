@@ -1,27 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+    <meta charset="UTF-8">
+    <title>商品登録</title>
 </head>
 <body>
-    登録しました
- <table>
-	<tr>
-		<th>商品名</th><th>金額</th><th>数量</th><th>おすすめ商品フラグ</th><th>更新時間</th>
-	</tr>
-	<tr th:each="result : ${resultList}">
-		<td th:text="${result.name}"></td>
-		<td th:text="${result.unitPrice}"></td>
-		<td th:text="${result.count}"></td>
-		<td th:text="${result.IsPr}"></td>
-		<td th:text="${result.RecordDate}"></td>
-	</tr>
-</table>
-</body>
-    <form id="form1" method="post" th:action="@{/}">
-        <button>
-            戻る
-        </button>
+    <h2>新規登録フォーム</h2>
+    <form method="post" th:action="@{/insert}" th:object="${CRUDForm}">
+        <label for="name">名前:</label>
+        <input type="text" name="name" id="name"><br>
+        <label for="unitPrice">金額:</label>
+        <input type="text" name="unitPrice" id="unitPrice"><br>
+        <label for="count">数量:</label>
+        <input type="text" name="count" id="count"><br>
+        <label for="IsPr">おすすめ商品フラグ:</label>
+        <input type="text" name="isPr" id="isPr"><br>
+	    <button>登録</button>
     </form>
+</body>
 </html>

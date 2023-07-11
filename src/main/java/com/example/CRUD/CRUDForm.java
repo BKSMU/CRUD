@@ -1,25 +1,19 @@
 package com.example.CRUD;
 
-import jakarta.validation.constraints.NotNull;
-
+/**
+ * Viewから受け取るユーザの入力値を保持するJavaオブジェクト
+ * Controllerのメソッドの引数として受け取る
+ * ユーザが入力するデータを記述する
+ * バリデーションのためのアノテーションをつける場合はここでする
+ *
+ */
 public class CRUDForm {
 	
 	private int code;
-
-	// 商品名
 	private String name;
-	
-	// 金額
-	@NotNull
 	private int unitPrice;
-
-	// 数量
-	@NotNull
 	private int count;
-	
-	// おすすめ商品フラグ
-	@NotNull
-	private int IsPr;
+	private int isPr;
 
 	public String getName() {
 		return name;
@@ -54,10 +48,10 @@ public class CRUDForm {
 	}
 
 	public int getIsPr() {
-		return IsPr;
+		return isPr;
 	}
 
 	public void setIsPr(int isPr) {
-		IsPr = isPr;
+		this.isPr = isPr;
 	}
 }

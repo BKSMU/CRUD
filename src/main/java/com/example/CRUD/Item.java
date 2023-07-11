@@ -2,6 +2,12 @@ package com.example.CRUD;
 
 import java.time.LocalDateTime;
 
+/**
+ * データベースのテーブルをそのままミラーリングしたオブジェクト
+ * データベースに保存するものを記述する
+ * データベースに入れる、取り出す時に利用する
+ *
+ */
 public class Item {
 
 	// 商品コード
@@ -13,7 +19,7 @@ public class Item {
 	// 数量
 	private int count;
 	// おすすめ商品フラグ
-	private int IsPr;
+	private int isPr;
 	// 更新時間
 	private LocalDateTime RecordDate;
 
@@ -50,11 +56,11 @@ public class Item {
 	}
 
 	public int getIsPr() {
-		return IsPr;
+		return isPr;
 	}
 
 	public void setIsPr(int isPr) {
-		IsPr = isPr;
+		this.isPr = isPr;
 	}
 
 	public LocalDateTime getRecordDate() {
