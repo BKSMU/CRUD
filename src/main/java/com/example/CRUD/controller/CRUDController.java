@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.CRUD.dao.CRUDDao;
+import com.example.CRUD.dao.CRUDdao;
 import com.example.CRUD.dto.CRUDdto;
 import com.example.CRUD.entity.Item;
 
@@ -23,7 +23,7 @@ import com.example.CRUD.entity.Item;
 public class CRUDController {
 	
 	@Autowired
-	private CRUDDao dao;
+	private CRUDdao dao;
 	
     /**
      * 初期(一覧)画面の表示

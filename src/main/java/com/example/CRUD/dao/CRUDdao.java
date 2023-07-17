@@ -18,7 +18,7 @@ import com.example.CRUD.entity.Item;
  *
  */
 @Repository
-public class CRUDDao {
+public class CRUDdao {
 	
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
