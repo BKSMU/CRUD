@@ -1,4 +1,4 @@
-package com.example.CRUD;
+package com.example.CRUD.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import com.example.CRUD.dao.CRUDDao;
+import com.example.CRUD.dto.CRUDdto;
+import com.example.CRUD.entity.Item;
 
 /**
  * ユーザーからのリクエストを受け付け、Model及びViewに伝達する
@@ -44,7 +48,7 @@ public class CRUDController {
      * @return 新規入力フォーム画面
      */
     @GetMapping("/insert")
-    public String form(CRUDForm crudForm) {
+    public String form(CRUDdto crudForm) {
         return "insert";
     }
     
@@ -59,7 +63,7 @@ public class CRUDController {
      * @return 初期(一覧)画面
      */
     @PostMapping("/insert")
-    public String create(CRUDForm crudForm) {
+    public String create(CRUDdto crudForm) {
 		Item item = new Item();
 		item.setName(crudForm.getName());
 		item.setCount(crudForm.getCount());
@@ -85,7 +89,7 @@ public class CRUDController {
      * @return 編集画面
      */
     @GetMapping("/edit/{id}")
-    public String edit(@ModelAttribute CRUDForm crudForm, @PathVariable int id) {
+    public String edit(@ModelAttribute CRUDdto crudForm, @PathVariable int id) {
     	Item item = dao.selectByCode(id);
     	crudForm.setCode(item.getCode());
     	crudForm.setName(item.getName());
@@ -105,7 +109,7 @@ public class CRUDController {
      * @return 初期(一覧)画面
      */
     @PostMapping("/edit")
-    public String update(CRUDForm crudForm) {
+    public String update(CRUDdto crudForm) {
         dao.updateItem(crudForm);
         return "redirect:/";
     }

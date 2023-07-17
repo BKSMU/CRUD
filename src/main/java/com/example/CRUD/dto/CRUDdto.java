@@ -1,4 +1,4 @@
-package com.example.CRUD;
+package com.example.CRUD.dto;
 
 /**
  * Viewから受け取るユーザの入力値を保持するJavaオブジェクト
@@ -7,7 +7,7 @@ package com.example.CRUD;
  * バリデーションのためのアノテーションをつける場合はここでする
  *
  */
-public class CRUDForm {
+public class CRUDdto {
 	
 	private int code;
 	private String name;

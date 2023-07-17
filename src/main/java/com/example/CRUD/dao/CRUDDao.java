@@ -1,4 +1,4 @@
-package com.example.CRUD;
+package com.example.CRUD.dao;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -9,6 +9,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.example.CRUD.dto.CRUDdto;
+import com.example.CRUD.entity.Item;
 
 /**
  * データベースへのアクセスを行う
@@ -70,7 +73,7 @@ public class CRUDDao {
 	 * 
 	 * @param item ITEMテーブルのEntity
 	 */
-    void insertItem(Item item) {
+    public void insertItem(Item item) {
 		jdbcTemplate.update("INSERT INTO ITEM(name, unitPrice, count, IsPr, RecordDate) VALUES(?, ?, ?, ?, ?)",
 				 item.getName(), item.getUnitPrice(), item.getCount(), item.getIsPr(), item.getRecordDate() );		
 	}
@@ -90,7 +93,7 @@ public class CRUDDao {
 	 * 
 	 * @param itemForm 入力フォーム
 	 */
-	public void updateItem(CRUDForm crudForm) {
+	public void updateItem(CRUDdto crudForm) {
 		jdbcTemplate.update(
 				"UPDATE ITEM SET name = ?, count = ?, unitPrice = ?, isPr = ?, recordDate = ? WHERE code = ?",
 				crudForm.getName(), crudForm.getCount(), crudForm.getUnitPrice(), crudForm.getIsPr(),
