@@ -1,4 +1,4 @@
-package com.example.CRUD;
+package com.example.CRUD.dao;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -10,8 +10,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.example.CRUD.entity.Item;
+
 @Repository("CRUDDao")
-public class CRUDDao {
+public class CRUDdao {
 
 	@Autowired
 	JdbcTemplate jdbc;
@@ -25,7 +27,7 @@ public class CRUDDao {
 	}
 
 	//@Override
-	public int insertOne(ItemDto dto) throws DataAccessException {
+	public int insertOne(Item dto) throws DataAccessException {
 		int result = 0;
 		//１件登録。登録、更新、削除はupdateを使う。第一引数はSQL、第二はPreparedStatement。
 		String sql = "INSERT INTO ITEM(name, unitPrice, count, IsPr, RecordDate)"
@@ -41,13 +43,13 @@ public class CRUDDao {
 
 	}
 
-	public List<ItemDto> searchALL() {
+	public List<Item> searchALL() {
 		String sql = "SELECT * FROM ITEM";
 		List<Map<String, Object>> searcheALL = jdbc.queryForList(sql);
 
-		List<ItemDto> serchList = new ArrayList<>();
+		List<Item> serchList = new ArrayList<>();
 		for (Map<String, Object> search : searcheALL) {
-			ItemDto dto = new ItemDto();
+			Item dto = new Item();
 			dto.setCode((int) search.get("CODE"));
 			dto.setName((String) search.get("NAME"));
 			dto.setUnitPrice((int) search.get("UNITPRICE"));
@@ -63,10 +65,10 @@ public class CRUDDao {
 
 	}
 
-	public List<ItemDto> searchOne(int code) throws DataAccessException {
+	public List<Item> searchOne(int code) throws DataAccessException {
 
-		List<ItemDto> serchList = new ArrayList<>();
-		ItemDto dto = new ItemDto();
+		List<Item> serchList = new ArrayList<>();
+		Item dto = new Item();
 
 		String sql = "SELECT code, name, unitPrice, count, IsPr, RecordDate " + "FROM ITEM " + "WHERE code = " + code;
 
@@ -92,7 +94,7 @@ public class CRUDDao {
 		return rowNumber;
 	}
 
-	public int update(ItemDto dto) throws DataAccessException {
+	public int update(Item dto) throws DataAccessException {
 
 		String sql = "UPDATE ITEM SET name = ?, unitPrice = ?, count = ?, isPr = ?, recordDate = ? WHERE code = ?;";
 		//１件更新

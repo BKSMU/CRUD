@@ -1,9 +1,9 @@
-package com.example.CRUD;
+package com.example.CRUD.dto;
 
 import java.time.LocalDateTime;
 
-public class ItemDto {
-	
+public class CRUDdto {
+
 	private int code;
 	private String name;
 	private int unitPrice;
@@ -48,7 +48,10 @@ public class ItemDto {
 	public void setRecordDate(LocalDateTime recordDate) {
 		this.recordDate = recordDate;
 	}
-
 	
 
+	
+	
+	
+	
 }

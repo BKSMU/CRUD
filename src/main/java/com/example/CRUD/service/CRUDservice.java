@@ -1,4 +1,4 @@
-package com.example.CRUD;
+package com.example.CRUD.service;
 
 import java.util.List;
 
@@ -6,16 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.example.CRUD.dao.CRUDdao;
+import com.example.CRUD.entity.Item;
+
 //ここでdao・repositry　のやり取りの箱にentityを使用したい
 @Service
-public class CRUDService {
+public class CRUDservice {
 	
 	@Autowired
-	private CRUDDao dao;
+	private CRUDdao dao;
 	
 	
 	
-	public void insertOne(ItemDto dto) throws DataAccessException {
+	public void insertOne(Item dto) throws DataAccessException {
 		int result = 0;
 		
 		
@@ -24,17 +27,17 @@ public class CRUDService {
 
 	}
 
-	public List<ItemDto> searchALL() {
+	public List<Item> searchALL() {
 
-		List<ItemDto> serchList = dao.searchALL();
+		List<Item> serchList = dao.searchALL();
 
 		return serchList;
 
 	}
 
-	public List<ItemDto> searchOne(int code) throws DataAccessException {
+	public List<Item> searchOne(int code) throws DataAccessException {
 
-		List<ItemDto> searchOneList = dao.searchOne(code);
+		List<Item> searchOneList = dao.searchOne(code);
 		return searchOneList;
 	}
 
@@ -54,7 +57,7 @@ public class CRUDService {
 //		return rowNumber;
 //	}
 	
-	public void update(ItemDto dto) throws DataAccessException {
+	public void update(Item dto) throws DataAccessException {
 		
 				//１件更新
 				dao.update(dto);

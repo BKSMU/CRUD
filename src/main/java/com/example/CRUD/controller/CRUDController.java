@@ -1,4 +1,4 @@
-package com.example.CRUD;
+package com.example.CRUD.controller;
 
 
 import java.time.LocalDateTime;//localtimestamp型に変更しよう
@@ -14,24 +14,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.CRUD.dto.CRUDdto;
+import com.example.CRUD.entity.Item;
+import com.example.CRUD.service.CRUDservice;
+
 @Controller
 public class CRUDController {
 	
 	
 	@Autowired
-	private CRUDService service;
+	private CRUDservice service;
 	
 	
 	@GetMapping("/")
 	 public String home(Model model){
-		model.addAttribute("bean",new Bean());
+		model.addAttribute("bean",new CRUDdto());
 	 return "home";
 	 }
 	
 	@PostMapping("/insert")
-	 public String insert(@ModelAttribute Bean bean, Model model){
+	 public String insert(@ModelAttribute CRUDdto bean, Model model){
 		
-		ItemDto dto = new ItemDto();
+		Item dto = new Item();
 		dto.setName(bean.getName());
 		dto.setCount(bean.getCount());
 		dto.setUnitPrice(bean.getUnitPrice());
@@ -47,7 +51,7 @@ public class CRUDController {
 	
 	@RequestMapping("/read")
 	 public String read(Model model){
-		List<ItemDto> searchAllList = service.searchALL();
+		List<Item> searchAllList = service.searchALL();
 		model.addAttribute("searchAllList", searchAllList);
 		
 	 return "read";
@@ -61,9 +65,9 @@ public class CRUDController {
 	
 	@RequestMapping("/searchOne")
 	 public String searchOne(int code, Model model){
-		List<ItemDto> search = service.searchOne(code);
+		List<Item> search = service.searchOne(code);
 		
-		Bean bean = new Bean();
+		CRUDdto bean = new CRUDdto();
 		for (int i = 0; i < search.size(); i++) {
 			bean.setCode(search.get(i).getCode());
 			bean.setName(search.get(i).getName());
@@ -80,9 +84,9 @@ public class CRUDController {
 	 }
 	
 	@PostMapping(value = "/update", params = "update")
-	 public String update(@ModelAttribute Bean bean, Model model){
+	 public String update(@ModelAttribute CRUDdto bean, Model model){
 		
-		ItemDto dto = new ItemDto();
+		Item dto = new Item();
 		dto.setName(bean.getName());
 		dto.setCount(bean.getCount());
 		dto.setUnitPrice(bean.getUnitPrice());
@@ -91,7 +95,7 @@ public class CRUDController {
 		
 		service.update(dto);
 		
-		List<ItemDto> search = service.searchOne(bean.getCode());
+		List<Item> search = service.searchOne(bean.getCode());
 		model.addAttribute("searchAllList", search);
 		
 	 return "update";

@@ -1,9 +1,9 @@
-package com.example.CRUD;
+package com.example.CRUD.entity;
 
 import java.time.LocalDateTime;
 
-public class Bean {
-
+public class Item {
+	
 	private int code;
 	private String name;
 	private int unitPrice;
@@ -48,10 +48,7 @@ public class Bean {
 	public void setRecordDate(LocalDateTime recordDate) {
 		this.recordDate = recordDate;
 	}
-	
 
 	
-	
-	
-	
+
 }
