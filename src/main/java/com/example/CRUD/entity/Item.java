@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.example.CRUD.dto;
+package com.example.CRUD.entity;
 
 import java.util.Date;
 
@@ -11,7 +11,7 @@ import java.util.Date;
  */
 
 //アイテムクラス
-public class ItemDto {
+public class Item {
 	
 	// コード
 	int code;

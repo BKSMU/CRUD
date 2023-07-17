@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.CRUD.dao.ItemDao;
-import com.example.CRUD.dto.ItemDto;
+import com.example.CRUD.dao.CRUDdao;
+import com.example.CRUD.entity.Item;
 
 /**
  * @author vtr03
@@ -25,7 +25,7 @@ import com.example.CRUD.dto.ItemDto;
 public class CRUDController {	
 
 	@Autowired
-	ItemDao itemDao;
+	CRUDdao itemDao;
 
 	// 初期画面
 	@RequestMapping("/init")
@@ -47,7 +47,7 @@ public class CRUDController {
 			int IsPr,
 			Model model) {
 
-		ItemDto itemDto = new ItemDto();
+		Item itemDto = new Item();
 
 		itemDto.setName(name);
 		itemDto.setUnitPrice(unitPrice);
@@ -64,7 +64,7 @@ public class CRUDController {
 	@RequestMapping("/search")
 	public String search(Model model){
 		// DBに登録されている一覧を取得
-		List<ItemDto> itemList = itemDao.selectAll();
+		List<Item> itemList = itemDao.selectAll();
 
 		// 画面に取得した値を渡して表示
 		model.addAttribute("itemList", itemList);
@@ -75,7 +75,7 @@ public class CRUDController {
 	@RequestMapping(value="/edit/{code}")
 	public String edit(@PathVariable int code, Model model){
 		// 指定のデータを取得
-		ItemDto itemDto = itemDao.selectOne(code);
+		Item itemDto = itemDao.selectOne(code);
 		
 		System.out.println(itemDto);
 
@@ -95,7 +95,7 @@ public class CRUDController {
 			int IsPr,
 			Model model) {
 
-		ItemDto itemDto = new ItemDto();
+		Item itemDto = new Item();
 		
 		itemDto.setCode(code);
 		itemDto.setName(name);

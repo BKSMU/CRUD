@@ -12,16 +12,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import com.example.CRUD.dto.ItemDto;
+import com.example.CRUD.entity.Item;
 
 @Repository
-public class ItemDao {
+public class CRUDdao {
 
 	@Autowired
 	private JdbcTemplate jdbc;
 
 	// 新規登録
-	public int insert(ItemDto itemDto) throws DataAccessException {
+	public int insert(Item itemDto) throws DataAccessException {
 
 		//１件登録。登録、更新、削除はupdateを使う。第一引数はSQL、第二はPreparedStatement。
 		int rowNumber = jdbc.update("INSERT INTO ITEM(name,"
@@ -40,7 +40,7 @@ public class ItemDao {
 	}
 
 	// 一覧取得
-	public List<ItemDto> selectAll() throws DataAccessException {
+	public List<Item> selectAll() throws DataAccessException {
 
 		// ITEMテーブルのデータを全件取得（queryForList）
 		// map→keyとvalueの組み合わせ。それをListで受け取る。
@@ -50,13 +50,13 @@ public class ItemDao {
 
 
 		// 結果返却用の変数
-		List<ItemDto> itemList = new ArrayList<>();
+		List<Item> itemList = new ArrayList<>();
 
 		// 取得したデータを結果返却用のListに格納していく
 		for (Map<String, Object> map : getList) {
 
 			//Itemインスタンスの生成
-			ItemDto itemDto = new ItemDto();
+			Item itemDto = new Item();
 
 			// Itemインスタンスに取得したデータをセットする
 			itemDto.setCode((int) map.get("code")); //コード
@@ -74,7 +74,7 @@ public class ItemDao {
 	}
 
 	//一件取得
-	public ItemDto selectOne(int code) throws DataAccessException {
+	public Item selectOne(int code) throws DataAccessException {
 
 
 		// SQL文を作成
@@ -88,8 +88,8 @@ public class ItemDao {
 
 		// queryForObjectメソッドを実行
 		// SQLの実行結果は、自動的にUserクラスにマッピングされて取得できる。
-		RowMapper<ItemDto> rowMapper = new BeanPropertyRowMapper<ItemDto>(ItemDto.class);
-		ItemDto itemDto = jdbc.queryForObject(sql, rowMapper, code);
+		RowMapper<Item> rowMapper = new BeanPropertyRowMapper<Item>(Item.class);
+		Item itemDto = jdbc.queryForObject(sql, rowMapper, code);
 
 		return itemDto;
 
@@ -97,7 +97,7 @@ public class ItemDao {
 	}
 
 	//更新
-	public int upadate(ItemDto itemDto) throws DataAccessException {
+	public int upadate(Item itemDto) throws DataAccessException {
 		int rowNumber = jdbc.update("UPDATE ITEM SET"
 				+ " name = ?,"
 				+ " unitPrice = ?,"
